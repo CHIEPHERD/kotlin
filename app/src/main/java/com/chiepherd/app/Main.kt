@@ -15,6 +15,7 @@ class Main : Application() {
     lateinit var contentLayout : AnchorPane
 
     override fun start(primaryStage: Stage) {
+        // val plugins = PluginLoader(this.javaClass.classLoader.getResource("plugins").toURI()).load()
         this.primaryStage = primaryStage
         this.primaryStage.title = "Chiepherd"
 
@@ -59,6 +60,5 @@ class Main : Application() {
 
 fun main(args: Array<String>) {
     // RabbitMQ.instance
-    // Application.launch(Main::class.java, *args)
-    PluginLoader().foo("/home/necros/Documents/Projects/Annual/kotlin/kanban/target/com.chiepherd.kanban-1.0.0.jar")
+    Application.launch(Main::class.java, *args)
 }

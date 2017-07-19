@@ -1,39 +1,46 @@
 package com.chiepherd.app.plugins
 
+import com.chiepherd.core.annotations.ChiepherdPlugin
+import com.chiepherd.core.controllers.ApplicationController
+import java.net.URI
 import java.net.URL
 import java.net.URLClassLoader
 import java.util.jar.JarFile
 import java.io.File
 import java.io.FileFilter
 import java.io.IOException
-import java.util.ArrayList
 
+class PluginLoader(val path : URI) {
+    val pluginList = PluginList()
 
-class PluginLoader {
-    fun foo(path : String) {
-        val klasses = loadClassNames(path)
+    private class JarFilter : FileFilter {
+        override fun accept(file: File): Boolean {
+            return file.isFile && file.name.toLowerCase().endsWith(".jar")
+        }
+    }
 
-        val urls = arrayOf(URL("jar:file:$path!/"))
-        val klassLoader = URLClassLoader.newInstance(urls)
+    fun load() : PluginList {
+        println(path)
+        val classes = mutableListOf<String>()
+        val files = File(path).listFiles(JarFilter())
+        println(files)
 
-        println(klasses)
-        println(klasses[1])
+        files.forEach {
+            println(it)
+            loadClassNamesAnnotated(it.toString())
+        }
 
-        println(com.chiepherd.core.annotations.ChiepherdPlugin::class.java.name)
-        val annotKlass = klassLoader.loadClass(com.chiepherd.core.annotations.ChiepherdPlugin::class.java.name)
+        return pluginList
+    }
 
-        val klassName = klasses[1]
-        val klass = klassLoader.loadClass(klassName)
-        println(klass)
-        println(klass.declaredAnnotations[0])
-        println(klass.declaredAnnotations[0])
-        // klass.declaredAnnotations[0].annotationClass
-        println("${klass.isAnnotationPresent(annotKlass as Class<out Annotation>)}")
-
-        if(klass.isAnnotationPresent(annotKlass)) {
-            val annotData = klass.getDeclaredAnnotation(com.chiepherd.core.annotations.ChiepherdPlugin::class.java)
-            println(annotData.name)
-            println(annotData.fxml)
+    private fun loadClassNamesAnnotated(path : String) {
+        loadClassNames(path).forEach {
+            val klass = javaClass.classLoader.loadClass(it)
+            if(klass.isAnnotationPresent(ChiepherdPlugin::class.java)
+                    && klass.javaClass.superclass == ApplicationController::class.java) {
+                val annotation = klass.getDeclaredAnnotation(ChiepherdPlugin::class.java)
+                pluginList.add(PluginList.Plugin(path, annotation.fxml, annotation.name, annotation.internal))
+            }
         }
     }
 
