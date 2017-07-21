@@ -1,5 +1,6 @@
 package com.chiepherd.app.controllers
 
+import com.chiepherd.app.plugins.PluginList
 import com.chiepherd.core.controllers.ApplicationController
 import com.jfoenix.controls.JFXPasswordField
 import com.jfoenix.controls.JFXTextField
@@ -17,6 +18,9 @@ class SignUpController : ApplicationController() {
     @FXML lateinit var password_confirmation : JFXPasswordField
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
+        PluginList.instance.plugins.forEach {
+            println(it.name)
+        }
         println("Sign UP Controller")
     }
 
@@ -31,7 +35,7 @@ class SignUpController : ApplicationController() {
         if(res.statusCode != 200) {
             displayError(res)
         } else {
-            switchScene(actionEvent, "chiepherd/views/Login.fxml")
+            switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/Login.fxml"))
         }
     }
 }

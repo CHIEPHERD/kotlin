@@ -22,6 +22,12 @@ class LoginController : ApplicationController() {
     @FXML fun onSignUp(actionEvent : ActionEvent?) {
         println("Sign up")
         if(actionEvent == null) { return }
-        switchScene(actionEvent, "chiepherd/views/SignUp.fxml")
+        switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/SignUp.fxml"))
+    }
+
+    @FXML fun onSignIn(actionEvent : ActionEvent?) {
+        println("Sign in")
+        if(actionEvent == null) { return }
+        switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/Conn.fxml"))
     }
 }

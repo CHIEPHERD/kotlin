@@ -24,7 +24,7 @@
                   <Font size="18.0" />
                </font>
             </JFXPasswordField>
-            <JFXButton id="sign_in" fx:id="sign_in" layoutX="140.0" layoutY="265.0" style="-fx-background-color: #2980B9; -fx-background-radius: 4;" text="SIGN IN" textFill="#ecf0f1">
+            <JFXButton id="sign_in" fx:id="sign_in" layoutX="140.0" layoutY="265.0" onAction="#onSignIn" style="-fx-background-color: #2980B9; -fx-background-radius: 4;" text="SIGN IN" textFill="#ecf0f1">
                <font>
                   <Font size="18.0" />
                </font>

@@ -7,9 +7,15 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.VBox
 import com.chiepherd.core.extensions.javafx.event.stage
 import javafx.event.ActionEvent
+import javafx.scene.Node
+import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.layout.BorderPane
 import khttp.responses.Response
+import netscape.javascript.JSObject.getWindow
+import javafx.stage.Stage
+import java.net.URL
+
 
 abstract class ApplicationController : Initializable {
     val homeParent : VBox by lazy {
@@ -23,25 +29,24 @@ abstract class ApplicationController : Initializable {
         return homeParent.lookup("#Content") as AnchorPane
     }
 
-    private fun newScene(path : String) : BorderPane {
-        val loader = FXMLLoader()
-        loader.location = this.javaClass.classLoader.getResource(path)
-        return loader.load<BorderPane>()
+    private fun newScene(path : URL) : BorderPane {
+        return FXMLLoader.load<BorderPane>(path)
     }
 
     private fun homeScene() : Scene {
         return Scene(homeParent)
     }
 
-    protected fun switchScene(actionEvent : ActionEvent, pathNewScene : String) {
-        println(pathNewScene)
+    protected fun switchScene(actionEvent : ActionEvent, resource : URL) {
+        println("resource $resource")
+        println("actionEvent $actionEvent")
         val homeStage = actionEvent.stage
         homeStage.scene = homeScene()
         homeStage.show()
 
-        println(newScene(pathNewScene))
+        println(newScene(resource))
 
-        contentLayout().children.add(newScene(pathNewScene))
+        contentLayout().children.add(newScene(resource))
     }
 
     protected fun displayError(res: Response) {

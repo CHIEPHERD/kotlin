@@ -11,7 +11,7 @@ import java.io.FileFilter
 import java.io.IOException
 
 class PluginLoader(val path : URI) {
-    val pluginList = PluginList()
+    val pluginList = PluginList.instance
 
     private class JarFilter : FileFilter {
         override fun accept(file: File): Boolean {
@@ -20,26 +20,25 @@ class PluginLoader(val path : URI) {
     }
 
     fun load() : PluginList {
-        println(path)
-        val classes = mutableListOf<String>()
         val files = File(path).listFiles(JarFilter())
-        println(files)
 
         files.forEach {
-            println(it)
-            loadClassNamesAnnotated(it.toString())
+            val jarUrl = URL("jar:${it.toURI().toURL()}!/")
+            val classLoader = URLClassLoader(arrayOf(jarUrl))
+            loadClassNamesAnnotated(it.toString(), classLoader)
         }
 
         return pluginList
     }
 
-    private fun loadClassNamesAnnotated(path : String) {
+    private fun loadClassNamesAnnotated(path : String, classLoader : ClassLoader) {
         loadClassNames(path).forEach {
-            val klass = javaClass.classLoader.loadClass(it)
+            val klass = classLoader.loadClass(it)
+
             if(klass.isAnnotationPresent(ChiepherdPlugin::class.java)
-                    && klass.javaClass.superclass == ApplicationController::class.java) {
+                    && klass.superclass == ApplicationController::class.java) {
                 val annotation = klass.getDeclaredAnnotation(ChiepherdPlugin::class.java)
-                pluginList.add(PluginList.Plugin(path, annotation.fxml, annotation.name, annotation.internal))
+                pluginList.add(PluginList.Plugin(classLoader, annotation.fxml, annotation.name, annotation.internal, klass.name))
             }
         }
     }
@@ -58,6 +57,8 @@ class PluginLoader(val path : URI) {
 
             names.add(className)
         }
+
+        jarFile.close()
 
         return names
     }
