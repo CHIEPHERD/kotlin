@@ -1,33 +1,24 @@
 package com.chiepherd.app.controllers
 
-import com.chiepherd.app.plugins.PluginList
-import com.jfoenix.controls.JFXButton
-import com.jfoenix.controls.JFXPasswordField
-import com.jfoenix.controls.JFXTextField
-import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import java.net.URL
 import java.util.*
 import com.chiepherd.core.controllers.ApplicationController
 import com.chiepherd.core.services.RabbitMQ
-import com.rabbitmq.tools.jsonrpc.JsonRpcClient
-import javafx.event.EventHandler
-import javafx.scene.control.Button
-import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.Pane
 import org.json.JSONArray
 import org.json.JSONObject
 import com.chiepherd.models.Project
+import javafx.event.EventHandler
+import javafx.fxml.FXMLLoader
+import javafx.scene.control.Label
+import javafx.scene.layout.*
 
 class HomeController : ApplicationController() {
-    @FXML lateinit var rootContainer : BorderPane
-    @FXML lateinit var pluginContainer : Pane
+    @FXML lateinit var yield : AnchorPane
+    @FXML lateinit var projects : VBox
 
-    val gPane : GridPane = GridPane()
+    @FXML override fun initialize(location: URL?, resources: ResourceBundle?) {
 
-    override fun initialize(location: URL?, resources: ResourceBundle?) {
         val json = "{ \"email\": \"email@test.fr\" }"
         val res = RabbitMQ.instance.sendMessage("chiepherd.user.projects", json)
 
@@ -38,31 +29,26 @@ class HomeController : ApplicationController() {
             projects.add(Project(project["project"] as JSONObject))
         }
         projects.forEach {
-            println(it)
+            loadProject(it)
         }
     }
 
+    fun loadProject(project : Project) {
+        val loader = FXMLLoader()
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/components/project.fxml")
+        val projectComponent = loader.load<Pane>()
+        projectComponent.id = project.uuid
 
-    @FXML fun onUpdate(actionEvent : ActionEvent?) {
-        println("Add Action")
-
-        val buttons = PluginList.instance.plugins.map { plugin ->
-            val button = JFXButton(plugin.name)
-            button.onAction = EventHandler {
-                println("FXML => ${plugin.fxml}")
-                println(plugin.name)
-                println(plugin.classLoader)
-                println(plugin.classLoader.getResource(plugin.fxml))
-                println(actionEvent)
-                switchScene(actionEvent!!, plugin.classLoader.getResource(plugin.fxml))
-            }
-            button
+        projectComponent.onMouseClicked = EventHandler {
+            println("Hello fro; component $projectComponent")
+            val root = (projects.parent.parent as AnchorPane)
+            val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/project_show.fxml"))
+            fxmlLoader.setController(ProjectController(projectComponent.id))
+            root.children.clear()
+            root.children.add(fxmlLoader.load())
         }
-
-        println(buttons)
-        pluginContainer.children.add(gPane)
-
-        println("Add child to pane")
-        gPane.children.addAll(buttons)
+        (projectComponent.children[0] as Label).text = "${project.name} (${project.label})"
+        (projectComponent.children[1] as Label).text = project.description
+        projects.children.add(projectComponent)
     }
 }

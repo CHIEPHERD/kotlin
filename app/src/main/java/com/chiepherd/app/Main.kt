@@ -94,7 +94,7 @@ class Main : Application() {
 
         val logged = VBox()
 
-        logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/conn.fxml")))
+        logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/projects.fxml")))
         PluginList.instance.plugins.forEach {
             logged.children.add(genButton(it.name, it.classLoader.getResource(it.fxml), it.classLoader))
         }
