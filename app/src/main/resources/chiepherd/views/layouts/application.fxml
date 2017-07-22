@@ -26,7 +26,7 @@
         </MenuBar>
         <SplitPane dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="263.0" prefWidth="600.0" VBox.vgrow="SOMETIMES">
             <items>
-                <AnchorPane id="sidebar" fx:id="sidebar" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+                <AnchorPane id="sidebar" fx:id="sidebar" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="200.0" />
                 <AnchorPane id="yield" fx:id="yield" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="223.0" prefWidth="416.0" />
             </items>
         </SplitPane>

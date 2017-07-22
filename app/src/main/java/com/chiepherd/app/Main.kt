@@ -4,6 +4,7 @@ import com.chiepherd.app.plugins.PluginList
 import com.chiepherd.app.plugins.PluginLoader
 import com.chiepherd.core.services.MenuManager
 import com.jfoenix.controls.JFXButton
+import com.chiepherd.core.services.RabbitMQ
 import javafx.application.Application
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
@@ -37,7 +38,7 @@ class Main : Application() {
     }
 
     override fun stop() {
-        // RabbitMQ.instance.stop()
+         RabbitMQ.instance.stop()
     }
 
     /**
@@ -46,7 +47,7 @@ class Main : Application() {
     fun initRootLayout() {
         // Load root layout from fxml file.
         val loader = FXMLLoader()
-        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/Application.fxml")
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/application.fxml")
         rootLayout = loader.load<Any>() as VBox
         contentLayout = (rootLayout.lookup("SplitPane") as SplitPane).items[1] as AnchorPane
 
@@ -61,7 +62,7 @@ class Main : Application() {
      */
     fun showLoginPage() {
         val loader = FXMLLoader()
-        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/Login.fxml")
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/login.fxml")
         val loginView = loader.load<BorderPane>()
 
         contentLayout.children.add(loginView)
@@ -86,14 +87,14 @@ class Main : Application() {
     fun populateMenu() {
         val registration = VBox()
 
-        registration.children.add(genButton("Login", javaClass.classLoader.getResource("chiepherd/views/Login.fxml")))
-        registration.children.add(genButton("SignUp", javaClass.classLoader.getResource("chiepherd/views/SignUp.fxml")))
+        registration.children.add(genButton("Login", javaClass.classLoader.getResource("chiepherd/views/login.fxml")))
+        registration.children.add(genButton("SignUp", javaClass.classLoader.getResource("chiepherd/views/sign_up.fxml")))
 
         MenuManager.add("Registration", registration)
 
         val logged = VBox()
 
-        logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/Conn.fxml")))
+        logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/project/projects.fxml")))
         PluginList.instance.plugins.forEach {
             logged.children.add(genButton(it.name, it.classLoader.getResource(it.fxml), it.classLoader))
         }
@@ -105,6 +106,5 @@ class Main : Application() {
 }
 
 fun main(args: Array<String>) {
-    // RabbitMQ.instance
     Application.launch(Main::class.java, *args)
 }

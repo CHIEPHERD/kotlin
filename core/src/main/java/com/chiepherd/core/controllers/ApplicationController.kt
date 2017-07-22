@@ -17,16 +17,16 @@ import java.net.URL
 abstract class ApplicationController : Initializable {
     val homeParent : VBox by lazy {
         val loader = FXMLLoader()
-        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/Application.fxml")
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/application.fxml")
 
         loader.load<VBox>()
     }
 
-    private fun sidePane(event: ActionEvent) : AnchorPane {
+    protected fun sidePane(event: ActionEvent) : AnchorPane {
         return (event.stage.scene.lookup("SplitPane") as SplitPane).items[0] as AnchorPane
     }
 
-    private fun yieldPane(event: ActionEvent) : AnchorPane {
+    protected fun yieldPane(event: ActionEvent) : AnchorPane {
         return (event.stage.scene.lookup("SplitPane") as SplitPane).items[1] as AnchorPane
     }
 

@@ -1,8 +1,15 @@
 package com.chiepherd.core.services
 
-import com.rabbitmq.client.ConnectionFactory
-import com.rabbitmq.client.Connection
-import com.rabbitmq.client.Channel
+import com.rabbitmq.client.*
+import com.rabbitmq.tools.jsonrpc.JsonRpcServer.response
+import java.io.IOException
+import java.util.concurrent.ArrayBlockingQueue
+import java.util.concurrent.BlockingQueue
+import java.util.UUID
+
+
+
+
 
 class RabbitMQ private constructor() {
     val connection : Connection
@@ -31,11 +38,30 @@ class RabbitMQ private constructor() {
         val instance: RabbitMQ by lazy { Holder.INSTANCE }
     }
 
-    fun sendMessage(exchangeName : String, exchangeType : String,
-                     routingKey : String, message : String) {
-        channel.exchangeDeclare(exchangeName, exchangeType, true)
-        channel.basicPublish(exchangeName, routingKey, null, message.toByteArray())
+    @Throws(IOException::class, InterruptedException::class)
+    fun sendMessage(routingKey : String, message : String): String {
+        val replyQueueName = channel.queueDeclare().queue
 
-        println("[x] Sent $routingKey : '$message'")
+        val corrId = UUID.randomUUID().toString()
+
+        val props = AMQP.BasicProperties.Builder()
+                .correlationId(corrId)
+                .replyTo(replyQueueName)
+                .build()
+
+        channel.basicPublish("chiepherd.main", routingKey, props, message.toByteArray(charset("UTF-8")))
+
+        val response = ArrayBlockingQueue<String>(1)
+
+        channel.basicConsume(replyQueueName, true, object : DefaultConsumer(channel) {
+            @Throws(IOException::class)
+            override fun handleDelivery(consumerTag: String, envelope: Envelope, properties: AMQP.BasicProperties, body: ByteArray) {
+                if (properties.correlationId == corrId) {
+                    response.offer(String(body))
+                }
+            }
+        })
+
+        return response.take()
     }
 }

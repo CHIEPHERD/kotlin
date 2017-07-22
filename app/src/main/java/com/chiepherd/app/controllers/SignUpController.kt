@@ -35,7 +35,7 @@ class SignUpController : ApplicationController() {
         if(res.statusCode != 200) {
             displayError(res)
         } else {
-            switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/Login.fxml"))
+            switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/login.fxml"))
         }
     }
 }
