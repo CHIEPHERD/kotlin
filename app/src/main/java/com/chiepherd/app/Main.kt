@@ -4,6 +4,7 @@ import com.chiepherd.app.plugins.PluginList
 import com.chiepherd.app.plugins.PluginLoader
 import com.chiepherd.core.services.MenuManager
 import com.jfoenix.controls.JFXButton
+import com.chiepherd.core.services.RabbitMQ
 import javafx.application.Application
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
@@ -37,7 +38,7 @@ class Main : Application() {
     }
 
     override fun stop() {
-        // RabbitMQ.instance.stop()
+         RabbitMQ.instance.stop()
     }
 
     /**
@@ -105,6 +106,5 @@ class Main : Application() {
 }
 
 fun main(args: Array<String>) {
-    // RabbitMQ.instance
     Application.launch(Main::class.java, *args)
 }

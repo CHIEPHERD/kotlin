@@ -10,13 +10,15 @@ import java.net.URL
 import java.util.*
 import com.chiepherd.core.controllers.ApplicationController
 import com.chiepherd.core.services.RabbitMQ
+import com.rabbitmq.tools.jsonrpc.JsonRpcClient
 import javafx.event.EventHandler
 import javafx.scene.control.Button
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
-import jdk.nashorn.internal.parser.JSONParser
+import org.json.JSONArray
+import org.json.JSONObject
 
 class HomeController : ApplicationController() {
     @FXML lateinit var rootContainer : BorderPane
@@ -25,12 +27,12 @@ class HomeController : ApplicationController() {
     val gPane : GridPane = GridPane()
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        println("ppppp CONTROLLER \n")
-        val json = "{ \"email\": \"user@email.com\" }"
-
+        val json = "{ \"email\": \"email@test.fr\" }"
         val res = RabbitMQ.instance.sendMessage("chiepherd.user.projects", json)
-        println(res)
+
+        val projects = JSONArray(res)
     }
+
 
     @FXML fun onUpdate(actionEvent : ActionEvent?) {
         println("Add Action")
