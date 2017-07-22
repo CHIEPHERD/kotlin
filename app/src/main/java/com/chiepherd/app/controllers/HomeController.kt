@@ -40,9 +40,9 @@ class HomeController : ApplicationController() {
         projectComponent.id = project.uuid
 
         projectComponent.onMouseClicked = EventHandler {
-            println("Hello fro; component $projectComponent")
+            println("Hello from component $projectComponent")
             val root = (projects.parent.parent as AnchorPane)
-            val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/project_show.fxml"))
+            val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/project/project_show.fxml"))
             fxmlLoader.setController(ProjectController(projectComponent.id))
             root.children.clear()
             root.children.add(fxmlLoader.load())
