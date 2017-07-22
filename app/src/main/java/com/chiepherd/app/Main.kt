@@ -67,11 +67,16 @@ class Main : Application() {
         contentLayout.children.add(loginView)
     }
 
-    fun genButton(name : String, resource : URL) : Button {
+    fun genButton(name : String, resource : URL, classLoader: ClassLoader? = null) : Button {
         val btn = JFXButton(name)
         btn.onAction = EventHandler {
             println("Event $name")
-            val element = FXMLLoader.load<BorderPane>(resource)
+            val loader = FXMLLoader()
+            loader.location = resource
+            if(classLoader != null) {
+                loader.classLoader = classLoader
+            }
+            val element = loader.load<BorderPane>()
             contentLayout.children.clear()
             contentLayout.children.add(element)
         }
@@ -90,7 +95,7 @@ class Main : Application() {
 
         logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/Conn.fxml")))
         PluginList.instance.plugins.forEach {
-            logged.children.add(genButton(it.name, it.classLoader.getResource(it.fxml)))
+            logged.children.add(genButton(it.name, it.classLoader.getResource(it.fxml), it.classLoader))
         }
 
         MenuManager.add("Logged", logged)

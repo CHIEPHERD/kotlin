@@ -6,7 +6,7 @@ import java.net.URL
 import java.util.*
 
 @ChiepherdPlugin(fxml = "kanban.fxml", name = "Kanban")
-class KanbanContoller : ApplicationController() {
+class KanbanController : ApplicationController() {
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         println("Hi from Kanban view")
     }
