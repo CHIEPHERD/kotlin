@@ -9,6 +9,7 @@ import javafx.fxml.FXML
 import java.net.URL
 import java.util.*
 import com.chiepherd.core.controllers.ApplicationController
+import com.chiepherd.core.services.RabbitMQ
 import javafx.event.EventHandler
 import javafx.scene.control.Button
 import javafx.scene.layout.AnchorPane
@@ -16,14 +17,18 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 
-class ConnectedController : ApplicationController() {
+class HomeController : ApplicationController() {
     @FXML lateinit var rootContainer : BorderPane
     @FXML lateinit var pluginContainer : Pane
 
     val gPane : GridPane = GridPane()
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        println("VIEW CONTROLLER \n")
+        println("ppppp CONTROLLER \n")
+        val json = "{ \"email\": \"user@email.com\" }"
+
+        val res = RabbitMQ.instance.sendMessage("chiepherd.user.projects", json)
+        println(res)
     }
 
     @FXML fun onUpdate(actionEvent : ActionEvent?) {

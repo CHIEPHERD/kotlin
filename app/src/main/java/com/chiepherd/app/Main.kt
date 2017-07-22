@@ -46,7 +46,7 @@ class Main : Application() {
     fun initRootLayout() {
         // Load root layout from fxml file.
         val loader = FXMLLoader()
-        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/Application.fxml")
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/application.fxml")
         rootLayout = loader.load<Any>() as VBox
         contentLayout = (rootLayout.lookup("SplitPane") as SplitPane).items[1] as AnchorPane
 
@@ -61,7 +61,7 @@ class Main : Application() {
      */
     fun showLoginPage() {
         val loader = FXMLLoader()
-        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/Login.fxml")
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/login.fxml")
         val loginView = loader.load<BorderPane>()
 
         contentLayout.children.add(loginView)

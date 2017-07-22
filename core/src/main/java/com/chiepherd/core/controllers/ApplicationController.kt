@@ -17,7 +17,7 @@ import java.net.URL
 abstract class ApplicationController : Initializable {
     val homeParent : VBox by lazy {
         val loader = FXMLLoader()
-        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/Application.fxml")
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/application.fxml")
 
         loader.load<VBox>()
     }
