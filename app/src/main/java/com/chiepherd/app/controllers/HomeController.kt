@@ -8,6 +8,7 @@ import com.chiepherd.core.services.RabbitMQ
 import org.json.JSONArray
 import org.json.JSONObject
 import com.chiepherd.models.Project
+import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.Label
@@ -50,5 +51,10 @@ class HomeController : ApplicationController() {
         (projectComponent.children[0] as Label).text = "${project.name} (${project.label})"
         (projectComponent.children[1] as Label).text = project.description
         projects.children.add(projectComponent)
+    }
+
+    @FXML fun onNewProject(actionEvent : ActionEvent?) {
+        if(actionEvent == null) { return }
+        switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/project/project_new.fxml"))
     }
 }
