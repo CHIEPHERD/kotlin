@@ -8,6 +8,7 @@ import javafx.fxml.FXML
 import java.net.URL
 import java.util.*
 import com.chiepherd.core.controllers.ApplicationController
+import com.chiepherd.core.services.MenuManager
 
 class LoginController : ApplicationController() {
     @FXML lateinit var email    : JFXTextField
@@ -22,7 +23,7 @@ class LoginController : ApplicationController() {
     @FXML fun onSignUp(actionEvent : ActionEvent?) {
         println("Sign up")
         if(actionEvent == null) { return }
-        switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/SignUp.fxml"))
+        switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/SignUp.fxml"), MenuManager.get("Registration"))
     }
 
     @FXML fun onSignIn(actionEvent : ActionEvent?) {
