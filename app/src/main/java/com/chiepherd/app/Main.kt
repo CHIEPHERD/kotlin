@@ -87,14 +87,14 @@ class Main : Application() {
     fun populateMenu() {
         val registration = VBox()
 
-        registration.children.add(genButton("Login", javaClass.classLoader.getResource("chiepherd/views/Login.fxml")))
-        registration.children.add(genButton("SignUp", javaClass.classLoader.getResource("chiepherd/views/SignUp.fxml")))
+        registration.children.add(genButton("Login", javaClass.classLoader.getResource("chiepherd/views/login.fxml")))
+        registration.children.add(genButton("SignUp", javaClass.classLoader.getResource("chiepherd/views/sign_up.fxml")))
 
         MenuManager.add("Registration", registration)
 
         val logged = VBox()
 
-        logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/Conn.fxml")))
+        logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/conn.fxml")))
         PluginList.instance.plugins.forEach {
             logged.children.add(genButton(it.name, it.classLoader.getResource(it.fxml), it.classLoader))
         }
