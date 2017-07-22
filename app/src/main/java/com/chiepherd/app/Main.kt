@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
+import java.io.File
 
 class Main : Application() {
     lateinit var primaryStage : Stage
@@ -15,7 +16,7 @@ class Main : Application() {
     lateinit var contentLayout : AnchorPane
 
     override fun start(primaryStage: Stage) {
-        // val plugins = PluginLoader(this.javaClass.classLoader.getResource("plugins").toURI()).load()
+        val plugins = PluginLoader(File("plugins").toURI()).load()
         this.primaryStage = primaryStage
         this.primaryStage.title = "Chiepherd"
 
@@ -35,7 +36,6 @@ class Main : Application() {
         // Load root layout from fxml file.
         val loader = FXMLLoader()
         loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/Application.fxml")
-        println(loader.location)
         rootLayout = loader.load<Any>() as VBox
         contentLayout = rootLayout.lookup("#Content") as AnchorPane
 
@@ -51,7 +51,6 @@ class Main : Application() {
     fun showLoginPage() {
         val loader = FXMLLoader()
         loader.location = this.javaClass.classLoader.getResource("chiepherd/views/Login.fxml")
-        println(loader.location)
         val loginView = loader.load<BorderPane>()
 
         contentLayout.children.add(loginView)
