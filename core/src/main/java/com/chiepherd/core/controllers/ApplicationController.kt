@@ -10,6 +10,7 @@ import javafx.event.ActionEvent
 import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.control.SplitPane
 import javafx.scene.layout.BorderPane
 import khttp.responses.Response
 import netscape.javascript.JSObject.getWindow
@@ -26,7 +27,7 @@ abstract class ApplicationController : Initializable {
     }
 
     private fun contentLayout() : AnchorPane {
-        return homeParent.lookup("#Content") as AnchorPane
+        return (homeParent.lookup("SplitPane") as SplitPane).items[1] as AnchorPane
     }
 
     private fun newScene(path : URL) : BorderPane {

@@ -4,6 +4,7 @@ import com.chiepherd.app.plugins.PluginLoader
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
+import javafx.scene.control.SplitPane
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
@@ -37,7 +38,7 @@ class Main : Application() {
         val loader = FXMLLoader()
         loader.location = this.javaClass.classLoader.getResource("chiepherd/views/layouts/Application.fxml")
         rootLayout = loader.load<Any>() as VBox
-        contentLayout = rootLayout.lookup("#Content") as AnchorPane
+        contentLayout = (rootLayout.lookup("SplitPane") as SplitPane).items[1] as AnchorPane
 
         // Show the scene containing the root layout.
         val scene = Scene(rootLayout)
