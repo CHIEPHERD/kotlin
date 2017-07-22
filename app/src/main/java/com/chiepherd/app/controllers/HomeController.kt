@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import org.json.JSONArray
 import org.json.JSONObject
+import com.chiepherd.models.Project
 
 class HomeController : ApplicationController() {
     @FXML lateinit var rootContainer : BorderPane
@@ -30,7 +31,15 @@ class HomeController : ApplicationController() {
         val json = "{ \"email\": \"email@test.fr\" }"
         val res = RabbitMQ.instance.sendMessage("chiepherd.user.projects", json)
 
-        val projects = JSONArray(res)
+        val jsonProjects = JSONArray(res)
+        val projects = mutableListOf<Project>()
+        jsonProjects.forEach {
+            val project = it as JSONObject
+            projects.add(Project(project["project"] as JSONObject))
+        }
+        projects.forEach {
+            println(it)
+        }
     }
 
 
