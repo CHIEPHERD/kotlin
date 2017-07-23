@@ -14,6 +14,9 @@ import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Node
 import javafx.scene.control.Label
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.DataFormat
+import javafx.scene.input.TransferMode
 import javafx.scene.layout.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -37,6 +40,7 @@ class KanbanController : ApplicationController() {
 
         json = """{ "projectUuid": "${project.uuid}" }"""
         res = RabbitMQ.instance.sendMessage("kanban.project.states", json)
+        println(res)
         val states = JSONArray(res)
         loadStates(states)
     }
@@ -52,34 +56,83 @@ class KanbanController : ApplicationController() {
     }
 
     fun loadStates(states : JSONArray) {
-        states.forEach {
+        states.forEach { stateData ->
             val loader = FXMLLoader()
             loader.location = this.javaClass.classLoader.getResource("chiepherd/views/components/kanban/kanban_state.fxml")
-            val json = """{ "stateUuid": "${(it as JSONObject)["uuid"]}" }"""
+            val json = """{ "stateUuid": "${(stateData as JSONObject)["uuid"]}" }"""
             val res = RabbitMQ.instance.sendMessage("kanban.state.tasks", json)
             val tasks = JSONArray(res)
 
-            val StateComponent = loader.load<Pane>()
-            StateComponent.id = it["uuid"] as String?
-            (StateComponent.children[0] as Label).text = it["name"] as String
+            val stateComponent = loader.load<Pane>()
+            stateComponent.id = stateData["uuid"] as String?
+            (stateComponent.children[0] as Label).text = stateData["name"] as String
 
-            StateComponent.children.addAll(loadTasks(tasks))
-            hStates.children.add(StateComponent)
+            stateComponent.children.addAll(loadTasks(tasks))
+
+            stateComponent.setOnDragOver {
+                println("Drag over")
+                val dragBoard = it.dragboard
+                if(dragBoard.hasContent(DataFormat.PLAIN_TEXT)) {
+                    it.acceptTransferModes(TransferMode.MOVE)
+                }
+                it.consume()
+            }
+
+            stateComponent.setOnDragDropped {
+                println("Dropped !")
+                val dragBoard = it.dragboard
+                val text = dragBoard.getContent(DataFormat.PLAIN_TEXT)
+                println("Text \n$text\n")
+                val jsonTask = JSONObject(text as String)
+
+                stateComponent.children.add(taskFromJson(jsonTask))
+
+                val jsonResponse = """{"taskUuid": "${jsonTask["uuid"]}", "stateUuid": "${stateData["uuid"]}",
+                    "priority": ${stateComponent.children.size}}"""
+                println(jsonResponse)
+                RabbitMQ.instance.sendMessage("kanban.task.move", jsonResponse)
+
+                it.isDropCompleted = true
+                it.consume()
+            }
+
+            hStates.children.add(stateComponent)
         }
     }
 
     fun loadTasks(tasks : JSONArray) : List<Node>  {
         val column = mutableListOf<Node>()
         tasks.forEach {
-            val loader = FXMLLoader()
-            loader.location = this.javaClass.classLoader.getResource("chiepherd/views/components/kanban/kanban_task.fxml")
-            val taskComponent = loader.load<Pane>()
-            taskComponent.id = (it as JSONObject)["uuid"] as String?
-            (taskComponent.children[0] as Label).text = it["title"] as String
-            (taskComponent.children[1] as Label).text = ""
+            val taskComponent = taskFromJson(it as JSONObject)
             column.add(taskComponent)
         }
         return column
+    }
+
+    private fun taskFromJson(taskData: JSONObject): GridPane {
+        val loader = FXMLLoader()
+        loader.location = this.javaClass.classLoader.getResource("chiepherd/views/components/kanban/kanban_task.fxml")
+        val taskComponent = loader.load<GridPane>()
+        println("taskFromJSON $taskData")
+        taskComponent.id = taskData["uuid"] as String?
+        (taskComponent.children[0] as Label).text = taskData["title"] as String
+        (taskComponent.children[1] as Label).text = ""
+
+        taskComponent.setOnDragDetected {
+            val dragBoard = taskComponent.startDragAndDrop(TransferMode.MOVE)
+            val content = ClipboardContent()
+
+            content.putString(taskData.toString())
+
+            dragBoard.setContent(content)
+            it.consume()
+        }
+
+        taskComponent.setOnDragDone {
+            (taskComponent.parent as Pane).children.remove(taskComponent)
+        }
+
+        return taskComponent
     }
 
     @FXML fun onChangeProject(actionEvent: ActionEvent?) {

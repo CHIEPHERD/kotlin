@@ -27,7 +27,6 @@ class Main : Application() {
         val plugins = PluginLoader(File("plugins").toURI()).load()
         this.primaryStage = primaryStage
         this.primaryStage.title = "Chiepherd"
-        this.primaryStage.isFullScreen = true
         this.primaryStage.width = 1800.0
         this.primaryStage.height = 900.0
 
