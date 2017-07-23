@@ -27,12 +27,11 @@ class NewTaskController(val project_id : String) : ApplicationController() {
 
     @FXML fun onCreateTask(actionEvent : ActionEvent?) {
         if(actionEvent == null) { return }
-        val json =
-                """{ "title": "${(formTask.children[1] as JFXTextField).text}",
-                 "description": "${(formTask.children[2] as JFXTextArea).text}",
-                 "projectUuid": "${project_id}",
-                 "type": "Task",
-                 "email": "email@test.fr" }"""
+        val json = """{ "title": "${(formTask.children[1] as JFXTextField).text}",
+             "description": "${(formTask.children[2] as JFXTextArea).text}",
+             "projectUuid": "${project_id}",
+             "type": "Task",
+             "email": "email@test.fr" }"""
         // TODO: Check validation errors
 
         val res = RabbitMQ.instance.sendMessage("chiepherd.task.create", json)

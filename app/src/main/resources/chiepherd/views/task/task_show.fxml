@@ -4,7 +4,9 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -15,16 +17,31 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox maxWidth="256.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="vboxTask" maxWidth="256.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Task Details">
+            <GridPane>
                <VBox.margin>
                   <Insets top="75.0" />
                </VBox.margin>
-               <font>
-                  <Font size="21.0" />
-               </font>
-            </Label>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Task Details">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <MaterialDesignIconView fx:id="edit" glyphName="PENCIL" size="20" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MaterialDesignIconView>
+               </children>
+            </GridPane>
             <JFXTextField id="title" promptText="Title">
                <VBox.margin>
                   <Insets bottom="15.0" top="50.0" />
