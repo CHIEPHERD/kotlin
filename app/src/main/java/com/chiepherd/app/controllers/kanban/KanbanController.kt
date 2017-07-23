@@ -132,6 +132,16 @@ class KanbanController : ApplicationController() {
             (taskComponent.parent as Pane).children.remove(taskComponent)
         }
 
+        taskComponent.children[3].onMouseClicked = EventHandler {
+            val root = (kanban.parent as AnchorPane)
+            val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/kanban/kanban_task_edit.fxml"))
+
+            fxmlLoader.setController(EditTaskController(Task(taskData)))
+
+            root.children.clear()
+            root.children.add(fxmlLoader.load())
+        }
+
         return taskComponent
     }
 

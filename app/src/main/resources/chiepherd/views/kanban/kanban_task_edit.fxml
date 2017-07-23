@@ -2,8 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
@@ -17,7 +17,7 @@
    <center>
       <VBox maxWidth="256.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Create a new channel">
+            <Label text="Edit a task">
                <VBox.margin>
                   <Insets top="75.0" />
                </VBox.margin>
@@ -30,34 +30,27 @@
                   <Insets bottom="15.0" top="50.0" />
                </VBox.margin>
             </JFXTextField>
+            <JFXTextArea promptText="Description">
+               <VBox.margin>
+                  <Insets bottom="15.0" />
+               </VBox.margin>
+            </JFXTextArea>
             <GridPane>
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="35.0" minWidth="10.0" prefWidth="35.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="213.0" minWidth="10.0" prefWidth="99.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="164.0" minWidth="10.0" prefWidth="157.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
-               <children>
-                  <JFXComboBox id="assignment" maxWidth="1.7976931348623157E308" promptText="user">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </JFXComboBox>
-                  <FontAwesomeIconView id="delete_assignment" fill="#c94040" glyphName="TIMES" size="20.0" GridPane.columnIndex="1" />
-               </children>
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
+               <children>
+                  <Label alignment="BOTTOM_LEFT" text="Points" GridPane.valignment="BOTTOM" />
+                  <JFXComboBox prefHeight="26.0" prefWidth="139.0" GridPane.columnIndex="1" />
+               </children>
             </GridPane>
-            <JFXButton id="more_assignments" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" style="-fx-background-color: #5cb85c;" text="Invite one more person" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="45.0" />
-               </VBox.margin>
-            </JFXButton>
             <GridPane>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -77,7 +70,7 @@
                      </GridPane.margin></JFXButton>
                </children>
                <VBox.margin>
-                  <Insets bottom="70.0" />
+                  <Insets top="70.0" />
                </VBox.margin>
             </GridPane>
          </children>
