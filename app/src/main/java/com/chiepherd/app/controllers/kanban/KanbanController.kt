@@ -43,10 +43,8 @@ class KanbanController : ApplicationController() {
 
     fun loadProjects(projects : JSONArray) {
         val items = mutableListOf<String>()
-        val itemsUuid = mutableListOf<String>()
         projects.forEach {
             items.add(((it as JSONObject)["project"] as JSONObject)["name"] as String)
-            itemsUuid.add((it["project"] as JSONObject)["uuid"] as String)
         }
         ((kanban.children[0] as GridPane).children[1] as JFXComboBox<*>).items.addAll(items as Collection<Nothing>)
         ((kanban.children[0] as GridPane).children[1] as JFXComboBox<*>).value = items[0]
@@ -94,7 +92,7 @@ class KanbanController : ApplicationController() {
 
         projects.forEach {
             if (((it as JSONObject)["project"] as JSONObject)["name"] == value) {
-                project = Project((it as JSONObject)["project"] as JSONObject)
+                project = Project(it["project"] as JSONObject)
             }
         }
 
