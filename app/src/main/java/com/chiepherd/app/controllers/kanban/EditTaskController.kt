@@ -11,11 +11,7 @@ import javafx.scene.layout.HBox
 import java.net.URL
 import java.util.*
 
-@ChiepherdPlugin(fxml = "kanban.fxml", name = "Kanban")
 class EditTaskController(task: Task) : ApplicationController() {
-
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-
-
     }
 }
