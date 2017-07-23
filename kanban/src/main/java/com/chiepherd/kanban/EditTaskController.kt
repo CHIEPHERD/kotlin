@@ -1,4 +1,4 @@
-package com.chiepherd.app.controllers.kanban
+package com.chiepherd.kanban
 
 import com.chiepherd.core.annotations.ChiepherdPlugin
 import com.chiepherd.core.controllers.ApplicationController
