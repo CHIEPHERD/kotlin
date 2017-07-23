@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="tasks" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox id="tasks" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="200.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label id="state" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" minHeight="60.0" style="-fx-border-color: black; -fx-background-color: white;" text="State">
          <font>

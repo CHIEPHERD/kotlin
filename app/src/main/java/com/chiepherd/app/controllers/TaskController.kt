@@ -6,6 +6,7 @@ import com.chiepherd.models.Project
 import com.chiepherd.models.Task
 import com.jfoenix.controls.JFXTextArea
 import com.jfoenix.controls.JFXTextField
+import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -39,5 +40,14 @@ class TaskController(val task_id : String) : ApplicationController() {
             root.children.clear()
             root.children.add(fxmlLoader.load())
         }
+    }
+
+    @FXML fun onEdit(actionEvent: ActionEvent?) {
+        if (actionEvent == null) { return }
+        val root = (vboxTask.parent.parent as AnchorPane)
+        val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/task/task_edit.fxml"))
+        fxmlLoader.setController(EditTaskController(task))
+        root.children.clear()
+        root.children.add(fxmlLoader.load())
     }
 }

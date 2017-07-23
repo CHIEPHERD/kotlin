@@ -40,7 +40,7 @@ class TasksController(val project_id : String) : ApplicationController() {
             println("Hello from component $taskComponent")
             val root = (tasks.parent.parent as AnchorPane)
             val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/task/task_show.fxml"))
-            fxmlLoader.setController(TaskController(taskComponent.id))
+            fxmlLoader.setController(TaskController(task.uuid!!))
             root.children.clear()
             root.children.add(fxmlLoader.load())
         }
