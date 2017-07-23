@@ -34,7 +34,6 @@ class NewProjectController : ApplicationController() {
         // TODO: Check validation errors
 
         val res = RabbitMQ.instance.sendMessage("chiepherd.project.create", json)
-        println(res)
         // TODO: Check server errors
         if (JSONObject(res).has("uuid")) {
             Thread.sleep(1_000)

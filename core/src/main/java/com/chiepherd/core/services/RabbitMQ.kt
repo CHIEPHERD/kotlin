@@ -50,6 +50,7 @@ class RabbitMQ private constructor() {
                 .build()
 
         channel.basicPublish("chiepherd.main", routingKey, props, message.toByteArray(charset("UTF-8")))
+        println("[${routingKey}] -> ${message}")
 
         val response = ArrayBlockingQueue<String>(1)
 
@@ -62,6 +63,8 @@ class RabbitMQ private constructor() {
             }
         })
 
-        return response.take()
+        val res = response.take()
+        println("[${routingKey}] <- ${res}")
+        return res
     }
 }

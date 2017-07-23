@@ -26,7 +26,6 @@ class ProjectController(val project_id : String, val rank : String) : Applicatio
         println("Je suis le projet #$project_id")
         val json = "{ \"uuid\": \"${project_id}\" }"
         val res = RabbitMQ.instance.sendMessage("chiepherd.project.show", json)
-        println(res)
         val jsonProject = JSONObject(res)
         project = Project(jsonProject)
         loadProject()
@@ -55,6 +54,7 @@ class ProjectController(val project_id : String, val rank : String) : Applicatio
         val root = (vboxProject.parent.parent as AnchorPane)
         val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/task/tasks.fxml"))
         fxmlLoader.setController(TasksController(project.uuid!!))
+
         root.children.clear()
         root.children.add(fxmlLoader.load())
     }

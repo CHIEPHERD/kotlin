@@ -1,22 +1,17 @@
 package com.chiepherd.models
 
+import com.chiepherd.core.extensions.json.withDefault
 import com.chiepherd.core.models.ApplicationModel
 import org.json.JSONException
 import org.json.JSONObject
 import kotlin.reflect.KProperty
 
-class Project(jsonObject: JSONObject) : ApplicationModel() {
-    var uuid        : String? = jsonObject["uuid"] as String?
-    var name        : String? = jsonObject["name"] as String?
-    var label       : String? = jsonObject["label"] as String?
-    var description : String? = jsonObject["description"] as String?
-    var visibility  : Boolean by lazy {
-        try {
-            (jsonObject["visibility"] as Boolean?) ?: true
-        } catch (e : JSONException) {
-            true
-        }
-    }
+class Project(json: JSONObject) : ApplicationModel() {
+    var uuid        : String? = json["uuid"] as String?
+    var name        : String? = json["name"] as String?
+    var label       : String? = json["label"] as String?
+    var description : String? = json["description"] as String?
+    val visibility : Boolean = json.withDefault("visibility", true) as Boolean
 
     override fun toString(): String {
         return "Project(uuid=$uuid, name=$name, label=$label, description=$description)"

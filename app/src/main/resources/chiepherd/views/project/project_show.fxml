@@ -43,6 +43,11 @@
                   </FontAwesomeIconView>
                </children>
             </GridPane>
+            <JFXButton maxWidth="1.7976931348623157E308" onAction="#onTasks" style="-fx-background-color: #5cb85c;" text="See tasks" textFill="WHITE">
+               <VBox.margin>
+                  <Insets top="45.0" />
+               </VBox.margin>
+            </JFXButton>
             <JFXTextField id="name" editable="false" promptText="Name">
                <VBox.margin>
                   <Insets bottom="15.0" top="50.0" />
@@ -74,7 +79,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <JFXButton id="back" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #286090;" text="Back" textAlignment="CENTER" textFill="WHITE">
+                  <JFXButton id="back" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onCancel" style="-fx-background-color: #286090;" text="Back" textAlignment="CENTER" textFill="WHITE">
                      <GridPane.margin>
                         <Insets left="2.0" right="2.0" />
                      </GridPane.margin></JFXButton>
