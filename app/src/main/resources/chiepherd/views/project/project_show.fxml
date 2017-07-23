@@ -4,7 +4,9 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -17,14 +19,30 @@
    <center>
       <VBox id="#vboxProject" fx:id="vboxProject" maxWidth="256.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Project Details">
-               <font>
-                  <Font size="21.0" />
-               </font>
+            <GridPane>
                <VBox.margin>
                   <Insets top="75.0" />
                </VBox.margin>
-            </Label>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Project Details">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                  </Label>
+                  <FontAwesomeIconView id="edit" fx:id="edit" glyphName="PENCIL" size="20" GridPane.columnIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </FontAwesomeIconView>
+               </children>
+            </GridPane>
             <JFXTextField id="name" editable="false" promptText="Name">
                <VBox.margin>
                   <Insets bottom="15.0" top="50.0" />
