@@ -97,7 +97,6 @@ class Main : Application() {
         val logged = VBox()
 
         logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/project/projects.fxml")))
-        logged.children.add(genButton("Kanban App", javaClass.classLoader.getResource("chiepherd/views/kanban/kanban.fxml")))
         PluginList.instance.plugins.forEach {
             logged.children.add(genButton(it.name, it.classLoader.getResource(it.fxml), it.classLoader))
         }
