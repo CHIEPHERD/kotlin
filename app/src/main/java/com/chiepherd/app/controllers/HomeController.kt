@@ -26,15 +26,12 @@ class HomeController : ApplicationController() {
         val jsonProjects = JSONArray(res)
         val projects = mutableListOf<Project>()
         jsonProjects.forEach {
-            val project = it as JSONObject
-            projects.add(Project(project["project"] as JSONObject))
-        }
-        projects.forEach {
-            loadProject(it)
+            val project = Project((it as JSONObject)["project"] as JSONObject)
+            loadProject(project, it["rank"] as String)
         }
     }
 
-    fun loadProject(project : Project) {
+    fun loadProject(project : Project, rank : String) {
         val loader = FXMLLoader()
         loader.location = this.javaClass.classLoader.getResource("chiepherd/views/components/project.fxml")
         val projectComponent = loader.load<Pane>()
@@ -44,7 +41,7 @@ class HomeController : ApplicationController() {
             println("Hello from component $projectComponent")
             val root = (projects.parent.parent as AnchorPane)
             val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/project/project_show.fxml"))
-            fxmlLoader.setController(ProjectController(projectComponent.id))
+            fxmlLoader.setController(ProjectController(projectComponent.id, rank))
             root.children.clear()
             root.children.add(fxmlLoader.load())
         }

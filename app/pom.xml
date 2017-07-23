@@ -30,6 +30,10 @@
             <artifactId>com.chiepherd.models</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
