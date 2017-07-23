@@ -8,6 +8,7 @@ import com.chiepherd.models.Project
 import com.chiepherd.core.controllers.ApplicationController
 import com.chiepherd.core.services.RabbitMQ
 import com.jfoenix.controls.JFXComboBox
+import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -78,7 +79,27 @@ class KanbanController : ApplicationController() {
             (taskComponent.children[1] as Label).text = ""
             column.add(taskComponent)
         }
-        println("jjjjjjjj")
         return column
+    }
+
+    @FXML fun onChangeProject(actionEvent: ActionEvent?) {
+        if (actionEvent == null) { return }
+        val value = ((kanban.children[0] as GridPane).children[1] as JFXComboBox<*>).value
+
+        var json = """{ "email": "email@test.fr" }"""
+        var res = RabbitMQ.instance.sendMessage("chiepherd.user.projects", json)
+        val projects = JSONArray(res)
+
+        projects.forEach {
+            if (((it as JSONObject)["project"] as JSONObject)["name"] == value) {
+                project = Project(it["project"] as JSONObject)
+            }
+        }
+
+        json = """{ "projectUuid": "${project.uuid}" }"""
+        res = RabbitMQ.instance.sendMessage("kanban.project.states", json)
+        val states = JSONArray(res)
+        hStates.children.clear()
+        loadStates(states)
     }
 }

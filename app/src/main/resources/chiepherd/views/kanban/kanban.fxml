@@ -25,14 +25,14 @@
          </rowConstraints>
          <children>
             <Label id="Kanban" alignment="TOP_LEFT" text="Kanban" />
-            <JFXComboBox prefWidth="150.0" promptText="Projects" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+            <JFXComboBox onAction="#onChangeProject" prefWidth="150.0" promptText="Projects" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
          </children>
       </GridPane>
    </top>
    <center>
       <Pane BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets top="75.0" left="50.0" />
+            <Insets left="50.0" top="75.0" />
          </BorderPane.margin>
          <children>
             <HBox id="states" fx:id="hStates" prefHeight="100.0" prefWidth="200.0" />
