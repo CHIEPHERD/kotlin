@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXTextArea
 import com.jfoenix.controls.JFXTextField
 import com.jfoenix.controls.JFXToggleButton
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
+import javafx.event.ActionEvent
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
@@ -18,18 +19,19 @@ import java.net.URL
 import java.util.*
 
 class ProjectController(val project_id : String, val rank : String) : ApplicationController() {
+    lateinit var project : Project
     @FXML lateinit var vboxProject : VBox
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         println("Je suis le projet #$project_id")
         val json = "{ \"uuid\": \"${project_id}\" }"
         val res = RabbitMQ.instance.sendMessage("chiepherd.project.show", json)
-
         val jsonProject = JSONObject(res)
-        loadProject(Project(jsonProject))
+        project = Project(jsonProject)
+        loadProject()
     }
 
-    fun loadProject(project: Project) {
+    fun loadProject() {
         if (rank != "Lead") {
             (vboxProject.children[0] as GridPane).children.remove((vboxProject.children[0] as GridPane).children[1])
         } else {
@@ -41,9 +43,24 @@ class ProjectController(val project_id : String, val rank : String) : Applicatio
                 root.children.add(fxmlLoader.load())
             }
         }
-        (vboxProject.children[1] as JFXTextField).text = project.name
-        (vboxProject.children[2] as JFXTextField).text = project.label
-        (vboxProject.children[3] as JFXToggleButton).isSelected = project.visibility
-        (vboxProject.children[4] as JFXTextArea).text = project.description
+        println("stop")
+        (vboxProject.children[2] as JFXTextField).text = project.name
+        (vboxProject.children[3] as JFXTextField).text = project.label
+        (vboxProject.children[4] as JFXToggleButton).isSelected = project.visibility
+        (vboxProject.children[5] as JFXTextArea).text = project.description
+    }
+
+    @FXML fun onTasks(actionEvent: ActionEvent?) {
+        val root = (vboxProject.parent.parent as AnchorPane)
+        val fxmlLoader = FXMLLoader(javaClass.classLoader.getResource("chiepherd/views/task/tasks.fxml"))
+        fxmlLoader.setController(TasksController(project.uuid!!))
+
+        root.children.clear()
+        root.children.add(fxmlLoader.load())
+    }
+
+    @FXML fun onCancel(actionEvent: ActionEvent?) {
+        if (actionEvent == null) { return }
+        switchScene(actionEvent, javaClass.classLoader.getResource("chiepherd/views/project/projects.fxml"))
     }
 }

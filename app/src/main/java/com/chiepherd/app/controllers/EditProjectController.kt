@@ -45,7 +45,6 @@ class EditProjectController(val project : Project) : ApplicationController() {
                  "uuid": "${project.uuid}" }"""
         val res = RabbitMQ.instance.sendMessage("chiepherd.project.update", json)
 
-        println(res)
         // TODO: Check server errors
         if (JSONObject(res).has("uuid")) {
             Thread.sleep(1_000)

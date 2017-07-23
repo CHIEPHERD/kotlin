@@ -15,9 +15,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <VBox maxWidth="256.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="formTask" maxWidth="256.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Task Details">
+            <Label text="Create a new task">
                <VBox.margin>
                   <Insets top="75.0" />
                </VBox.margin>
@@ -55,11 +55,11 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <JFXButton id="back" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #d9534f;" text="Back" textFill="WHITE">
+                  <JFXButton id="cancel" onAction="#onCancel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #d9534f;" text="Cancel" textFill="WHITE">
                      <GridPane.margin>
                         <Insets left="2.0" right="2.0" />
                      </GridPane.margin></JFXButton>
-                  <JFXButton id="edit" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #286090;" text="Edit" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
+                  <JFXButton id="create" onAction="#onCreateTask" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #286090;" text="Save" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="2.0" right="2.0" />
                      </GridPane.margin></JFXButton>
@@ -68,18 +68,14 @@
                   <Insets bottom="70.0" />
                </VBox.margin>
             </GridPane>
-            <Label text="Comments" />
-            <VBox id="comments" prefHeight="41.0" prefWidth="256.0" />
-            <JFXTextArea prefHeight="94.0" prefWidth="256.0">
-               <VBox.margin>
-                  <Insets bottom="15.0" />
-               </VBox.margin>
-            </JFXTextArea>
-            <JFXButton id="comment" maxWidth="1.7976931348623157E308" style="-fx-background-color: #286090;" text="Comment" textFill="WHITE">
-               <VBox.margin>
-                  <Insets bottom="15.0" />
-               </VBox.margin>
-            </JFXButton>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+            </GridPane>
          </children>
       </VBox>
    </center>

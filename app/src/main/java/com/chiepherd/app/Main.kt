@@ -27,6 +27,9 @@ class Main : Application() {
         val plugins = PluginLoader(File("plugins").toURI()).load()
         this.primaryStage = primaryStage
         this.primaryStage.title = "Chiepherd"
+        this.primaryStage.isFullScreen = true
+        this.primaryStage.width = 1800.0
+        this.primaryStage.height = 900.0
 
         initRootLayout()
 
@@ -95,6 +98,7 @@ class Main : Application() {
         val logged = VBox()
 
         logged.children.add(genButton("Home", javaClass.classLoader.getResource("chiepherd/views/project/projects.fxml")))
+        logged.children.add(genButton("Kanban App", javaClass.classLoader.getResource("chiepherd/views/kanban/kanban.fxml")))
         PluginList.instance.plugins.forEach {
             logged.children.add(genButton(it.name, it.classLoader.getResource(it.fxml), it.classLoader))
         }
